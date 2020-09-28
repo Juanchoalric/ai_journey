@@ -1,0 +1,2165 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Creating a Simpler Model | My Data Science Journey</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Creating a Simpler Model" />
+<meta name="author" content="Juan Cruz Alric" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Creating a simple model without any “machine learning”." />
+<meta property="og:description" content="Creating a simple model without any “machine learning”." />
+<link rel="canonical" href="https://juanchoalric.github.io/ai_journey/deep-learning/jupyter/fastai/2020/09/28/creating-simple-model.html" />
+<meta property="og:url" content="https://juanchoalric.github.io/ai_journey/deep-learning/jupyter/fastai/2020/09/28/creating-simple-model.html" />
+<meta property="og:site_name" content="My Data Science Journey" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-09-28T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Creating a simple model without any “machine learning”.","url":"https://juanchoalric.github.io/ai_journey/deep-learning/jupyter/fastai/2020/09/28/creating-simple-model.html","@type":"BlogPosting","headline":"Creating a Simpler Model","dateModified":"2020-09-28T00:00:00-05:00","datePublished":"2020-09-28T00:00:00-05:00","author":{"@type":"Person","name":"Juan Cruz Alric"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://juanchoalric.github.io/ai_journey/deep-learning/jupyter/fastai/2020/09/28/creating-simple-model.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/ai_journey/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://juanchoalric.github.io/ai_journey/feed.xml" title="My Data Science Journey" /><link rel="shortcut icon" type="image/x-icon" href="/ai_journey/images/favicon.ico"><link href="https://cdn.jsdelivr.net/npm/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/ai_journey/">My Data Science Journey</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/ai_journey/about/">About Me</a><a class="page-link" href="/ai_journey/search/">Search</a><a class="page-link" href="/ai_journey/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Creating a Simpler Model</h1><p class="page-description">Creating a simple model without any "machine learning".</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-09-28T00:00:00-05:00" itemprop="datePublished">
+        Sep 28, 2020
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Juan Cruz Alric</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      8 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/ai_journey/categories/#deep-learning">deep-learning</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/ai_journey/categories/#jupyter">jupyter</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/ai_journey/categories/#fastai">fastai</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/Juanchoalric/ai_journey/tree/master/_notebooks/2020-09-28-creating-simple-model.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/ai_journey/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/Juanchoalric/ai_journey/master?filepath=_notebooks%2F2020-09-28-creating-simple-model.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/ai_journey/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/Juanchoalric/ai_journey/blob/master/_notebooks/2020-09-28-creating-simple-model.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/ai_journey/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#Mnist-Dataset">Mnist Dataset </a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#Creating-a-SIMPLE-Model">Creating a SIMPLE Model </a></li>
+<li class="toc-entry toc-h3"><a href="#Metric">Metric </a></li>
+</ul>
+</li>
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-09-28-creating-simple-model.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># your machine to run the code</span>
+<span class="o">!</span>pip install -Uqq fastbook
+<span class="kn">import</span> <span class="nn">fastbook</span>
+<span class="n">fastbook</span><span class="o">.</span><span class="n">setup_book</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre><span class="ansi-red-fg">voila 0.2.3 has requirement nbconvert&lt;7,&gt;=6.0.0, but you'll have nbconvert 5.6.1 which is incompatible.</span>
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/home/juancruzalric/.pyenv/versions/3.7.4/envs/fastai/lib/python3.7/site-packages/fastbook/__init__.py:22: UserWarning: Missing `graphviz` - please run `conda install fastbook`
+  except ModuleNotFoundError: warn("Missing `graphviz` - please run `conda install fastbook`")
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">fastai.vision.all</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">fastbook</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="c1"># We are going to work with grey scale images</span>
+<span class="n">matplotlib</span><span class="o">.</span><span class="n">rc</span><span class="p">(</span><span class="s1">'image'</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">'Greys'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Mnist-Dataset">
+<a class="anchor" href="#Mnist-Dataset" aria-hidden="true"><span class="octicon octicon-link"></span></a>Mnist Dataset<a class="anchor-link" href="#Mnist-Dataset"> </a>
+</h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Mnist Dataset contains a lot of images from 0 to 9. We are going to try and classify any image as a 3 or a 7</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">URLs</span><span class="o">.</span><span class="n">MNIST_SAMPLE</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>'https://s3.amazonaws.com/fast-ai-sample/mnist_sample.tgz'</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">untar_data</span><span class="p">(</span><span class="n">URLs</span><span class="o">.</span><span class="n">MNIST_SAMPLE</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">path</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Path('/home/juancruzalric/.fastai/data/mnist_sample')</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">path</span><span class="o">.</span><span class="n">ls</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(#3) [Path('/home/juancruzalric/.fastai/data/mnist_sample/train'),Path('/home/juancruzalric/.fastai/data/mnist_sample/valid'),Path('/home/juancruzalric/.fastai/data/mnist_sample/labels.csv')]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>ls() ---&gt; is a method created by fastai. It let you see what is inside the directory. It will return a object called by "L". It has the same functionality as a "list" in python.</p>
+<p>We can also see that we have a train directory and a valid directory</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="p">(</span><span class="n">path</span><span class="o">/</span><span class="s1">'train'</span><span class="p">)</span><span class="o">.</span><span class="n">ls</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(#2) [Path('/home/juancruzalric/.fastai/data/mnist_sample/train/3'),Path('/home/juancruzalric/.fastai/data/mnist_sample/train/7')]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>There are two directories inside "/train" one is "/train/7" and the other one is "/train/3". The "/3" and "/7" represents the labels of the data</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">threes</span> <span class="o">=</span> <span class="p">(</span><span class="n">path</span><span class="o">/</span><span class="s1">'train'</span><span class="o">/</span><span class="s1">'3'</span><span class="p">)</span><span class="o">.</span><span class="n">ls</span><span class="p">()</span><span class="o">.</span><span class="n">sorted</span><span class="p">()</span>
+<span class="n">sevens</span> <span class="o">=</span> <span class="p">(</span><span class="n">path</span><span class="o">/</span><span class="s1">'train'</span><span class="o">/</span><span class="s1">'7'</span><span class="p">)</span><span class="o">.</span><span class="n">ls</span><span class="p">()</span><span class="o">.</span><span class="n">sorted</span><span class="p">()</span>
+<span class="n">threes</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(#6131) [Path('/home/juancruzalric/.fastai/data/mnist_sample/train/3/10.png'),Path('/home/juancruzalric/.fastai/data/mnist_sample/train/3/10000.png'),Path('/home/juancruzalric/.fastai/data/mnist_sample/train/3/10011.png'),Path('/home/juancruzalric/.fastai/data/mnist_sample/train/3/10031.png'),Path('/home/juancruzalric/.fastai/data/mnist_sample/train/3/10034.png'),Path('/home/juancruzalric/.fastai/data/mnist_sample/train/3/10042.png'),Path('/home/juancruzalric/.fastai/data/mnist_sample/train/3/10052.png'),Path('/home/juancruzalric/.fastai/data/mnist_sample/train/3/1007.png'),Path('/home/juancruzalric/.fastai/data/mnist_sample/train/3/10074.png'),Path('/home/juancruzalric/.fastai/data/mnist_sample/train/3/10091.png')...]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Lets try and print out one of the images</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">img3_path</span> <span class="o">=</span> <span class="n">threes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">im3</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">img3_path</span><span class="p">)</span>
+<span class="n">im3</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea output_execute_result">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAAA9ElEQVR4nM3Or0sDcRjH8c/pgrfBVBjCgibThiKIyTWbWF1bORhGwxARxH/AbtW0JoIGwzXRYhJhtuFY2q1ocLgbe3sGReTuuWbwkx6+r+/zQ/pncX6q+YOldSe6nG3dn8U/rTQ70L8FCGJUewvxl7NTmezNb8xIkvKugr1HSeMP6SrWOVkoTEuSyh0Gm2n3hQyObMnXnxkempRrvgD+gokzwxFAr7U7YXHZ8x4A/Dl7rbu6D2yl3etcw/F3nZgfRVI7rXM7hMUUqzzBec427x26rkmlkzEEa4nnRqnSOH2F0UUx0ePzlbuqMXAHgN6GY9if5xP8dmtHFfwjuQAAAABJRU5ErkJggg==%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">img7_path</span> <span class="o">=</span> <span class="n">sevens</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">im7</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">img7_path</span><span class="p">)</span>
+<span class="n">im7</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea output_execute_result">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAAA+UlEQVR4nNXQrUuDARDH8d8mMuVBHxCMlqWxJIKbYhBFVmRhaTiwi03sIhjFYLHtD1DrxKRFDCbfpmxDEQa6NoUZpj77zvCU54Hnis2Dg4MPd8ed9F8jNpLwi/jq5/VQ2Nwyl5KksR3oOiEbfoK3NUkLNaAR7jyE1lbKyVUAKAUpdfpDs5CrvALA5kDAEjfQx0/g3LeYj9NXktTvNR6q6aI6U8/BqQdwks9PStqG3mz4jNHyxYQkabkLu8Yf5upw5EabW4dHwwY3oJ2NtvgKvBeMhXvwsW7Yooe3b9jSN96xYZkvuDNs5gXOnGibb8G9Yckm3I4bQ/8Sv1SQdejWwohEAAAAAElFTkSuQmCC%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But sadly... a computer only undestands numbers we will need to transform this images</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">array</span><span class="p">(</span><span class="n">im3</span><span class="p">)[</span><span class="mi">4</span><span class="p">:</span><span class="mi">10</span><span class="p">,</span><span class="mi">4</span><span class="p">:</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([[  0,   0,   0,   0,   0,   0],
+       [  0,   0,   0,   0,   0,  29],
+       [  0,   0,   0,  48, 166, 224],
+       [  0,  93, 244, 249, 253, 187],
+       [  0, 107, 253, 253, 230,  48],
+       [  0,   3,  20,  20,  15,   0]], dtype=uint8)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We are printing rows from 4 up to 10 (not including 10) and columns 4 to 10 (not including 10)</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see it more clearly using a Dataframe (Pandas library).</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">array</span><span class="p">(</span><span class="n">im3</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>numpy.ndarray</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">tensor</span><span class="p">(</span><span class="n">im3</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Tensor</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>tensors and numpy arrays are similar. However tensors let you run your operations in the GPU making your work process faster. We are going to use tensors from now on.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">img3_t</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">(</span><span class="n">im3</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">img3_t</span><span class="p">[</span><span class="mi">4</span><span class="p">:</span><span class="mi">22</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span><span class="mi">22</span><span class="p">])</span>
+<span class="c1">## Just setting the font-size and a background color as Grey with some gradient to see the </span>
+<span class="c1">## density of the pixels</span>
+<span class="n">df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_properties</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">'font-size'</span><span class="p">:</span><span class="s1">'10pt'</span><span class="p">})</span><span class="o">.</span><span class="n">background_gradient</span><span class="p">(</span><span class="s1">'Greys'</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<style type="text/css">
+#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col5,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col7,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col10,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col11,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col12,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col13,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col14,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col16,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col16,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col16,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col16,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col7,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col10,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col16,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col5,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col7,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col16,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col5,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col7,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col14,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col16,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col5,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col13,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col14,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col16,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col13,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col14,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col16,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col16,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col5,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col5,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col7,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col5,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col7,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col10,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col11,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col12,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col5,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col7,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col10,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col11,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col12,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col5,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col7,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col10,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col11,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col5,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col7,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col10,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col5,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col7,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col16,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col17,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col0,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col5,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col7,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col16,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col17{
+            font-size:  10pt;
+            background-color:  #ffffff;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col5{
+            font-size:  10pt;
+            background-color:  #efefef;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col13{
+            font-size:  10pt;
+            background-color:  #7c7c7c;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col7{
+            font-size:  10pt;
+            background-color:  #4a4a4a;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col10,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col5,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col6,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col7,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col11,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col12,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col13,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col12,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col13,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col1,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col12,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col13,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col12,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col11,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col11,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col11,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col12,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col13,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col14,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col13,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col14,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col14,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col16,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col14,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col14,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col15,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col13,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col14,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col12,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col13,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col11,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col12{
+            font-size:  10pt;
+            background-color:  #000000;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col11{
+            font-size:  10pt;
+            background-color:  #606060;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col12{
+            font-size:  10pt;
+            background-color:  #4d4d4d;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col14{
+            font-size:  10pt;
+            background-color:  #bbbbbb;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col3{
+            font-size:  10pt;
+            background-color:  #e4e4e4;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col6{
+            font-size:  10pt;
+            background-color:  #6b6b6b;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col14,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col14,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col13{
+            font-size:  10pt;
+            background-color:  #171717;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col11{
+            font-size:  10pt;
+            background-color:  #4b4b4b;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col10,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col10,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col10,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col10{
+            font-size:  10pt;
+            background-color:  #010101;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col1{
+            font-size:  10pt;
+            background-color:  #272727;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col2{
+            font-size:  10pt;
+            background-color:  #0a0a0a;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col13{
+            font-size:  10pt;
+            background-color:  #050505;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col5{
+            font-size:  10pt;
+            background-color:  #333333;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col6{
+            font-size:  10pt;
+            background-color:  #e6e6e6;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col7,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col10{
+            font-size:  10pt;
+            background-color:  #fafafa;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col10,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col15{
+            font-size:  10pt;
+            background-color:  #fbfbfb;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col9{
+            font-size:  10pt;
+            background-color:  #fdfdfd;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col4{
+            font-size:  10pt;
+            background-color:  #1b1b1b;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col5{
+            font-size:  10pt;
+            background-color:  #e0e0e0;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col11{
+            font-size:  10pt;
+            background-color:  #4e4e4e;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col14{
+            font-size:  10pt;
+            background-color:  #767676;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col1{
+            font-size:  10pt;
+            background-color:  #fcfcfc;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col2,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col3,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col16{
+            font-size:  10pt;
+            background-color:  #f6f6f6;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col4,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col7{
+            font-size:  10pt;
+            background-color:  #f8f8f8;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col10,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col7{
+            font-size:  10pt;
+            background-color:  #e8e8e8;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col11{
+            font-size:  10pt;
+            background-color:  #222222;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col13,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col12{
+            font-size:  10pt;
+            background-color:  #090909;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col14{
+            font-size:  10pt;
+            background-color:  #d0d0d0;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col10,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col11,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col6{
+            font-size:  10pt;
+            background-color:  #060606;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col13{
+            font-size:  10pt;
+            background-color:  #979797;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col8{
+            font-size:  10pt;
+            background-color:  #b6b6b6;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col9{
+            font-size:  10pt;
+            background-color:  #252525;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col12{
+            font-size:  10pt;
+            background-color:  #999999;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col5{
+            font-size:  10pt;
+            background-color:  #f9f9f9;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col7{
+            font-size:  10pt;
+            background-color:  #101010;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col10{
+            font-size:  10pt;
+            background-color:  #020202;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col11,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col15{
+            font-size:  10pt;
+            background-color:  #545454;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col12{
+            font-size:  10pt;
+            background-color:  #f1f1f1;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col5{
+            font-size:  10pt;
+            background-color:  #f7f7f7;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col7{
+            font-size:  10pt;
+            background-color:  #030303;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col12{
+            font-size:  10pt;
+            background-color:  #181818;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col13{
+            font-size:  10pt;
+            background-color:  #303030;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col14{
+            font-size:  10pt;
+            background-color:  #a9a9a9;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col15{
+            font-size:  10pt;
+            background-color:  #fefefe;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col8,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col9,#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col10{
+            font-size:  10pt;
+            background-color:  #bababa;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col10{
+            font-size:  10pt;
+            background-color:  #393939;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col16{
+            font-size:  10pt;
+            background-color:  #eaeaea;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col11{
+            font-size:  10pt;
+            background-color:  #e2e2e2;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col12{
+            font-size:  10pt;
+            background-color:  #9f9f9f;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col16{
+            font-size:  10pt;
+            background-color:  #898989;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col13{
+            font-size:  10pt;
+            background-color:  #585858;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col13{
+            font-size:  10pt;
+            background-color:  #5a5a5a;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col16{
+            font-size:  10pt;
+            background-color:  #525252;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col12{
+            font-size:  10pt;
+            background-color:  #c5c5c5;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col16{
+            font-size:  10pt;
+            background-color:  #d7d7d7;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col11{
+            font-size:  10pt;
+            background-color:  #dcdcdc;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col12{
+            font-size:  10pt;
+            background-color:  #2f2f2f;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col15{
+            font-size:  10pt;
+            background-color:  #636363;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col11{
+            font-size:  10pt;
+            background-color:  #070707;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col14{
+            font-size:  10pt;
+            background-color:  #1f1f1f;
+            color:  #f1f1f1;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col8{
+            font-size:  10pt;
+            background-color:  #e9e9e9;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col9{
+            font-size:  10pt;
+            background-color:  #7d7d7d;
+            color:  #000000;
+        }#T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col14{
+            font-size:  10pt;
+            background-color:  #e1e1e1;
+            color:  #000000;
+        }</style>
+<table id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974">
+<thead>    <tr>        <th class="blank level0"></th>        <th class="col_heading level0 col0">0</th>        <th class="col_heading level0 col1">1</th>        <th class="col_heading level0 col2">2</th>        <th class="col_heading level0 col3">3</th>        <th class="col_heading level0 col4">4</th>        <th class="col_heading level0 col5">5</th>        <th class="col_heading level0 col6">6</th>        <th class="col_heading level0 col7">7</th>        <th class="col_heading level0 col8">8</th>        <th class="col_heading level0 col9">9</th>        <th class="col_heading level0 col10">10</th>        <th class="col_heading level0 col11">11</th>        <th class="col_heading level0 col12">12</th>        <th class="col_heading level0 col13">13</th>        <th class="col_heading level0 col14">14</th>        <th class="col_heading level0 col15">15</th>        <th class="col_heading level0 col16">16</th>        <th class="col_heading level0 col17">17</th>    </tr>
+</thead>
+<tbody>
+                <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row0" class="row_heading level0 row0">0</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col0" class="data row0 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col1" class="data row0 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col2" class="data row0 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col3" class="data row0 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col4" class="data row0 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col5" class="data row0 col5">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col6" class="data row0 col6">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col7" class="data row0 col7">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col8" class="data row0 col8">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col9" class="data row0 col9">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col10" class="data row0 col10">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col11" class="data row0 col11">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col12" class="data row0 col12">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col13" class="data row0 col13">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col14" class="data row0 col14">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col15" class="data row0 col15">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col16" class="data row0 col16">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row0_col17" class="data row0 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row1" class="row_heading level0 row1">1</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col0" class="data row1 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col1" class="data row1 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col2" class="data row1 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col3" class="data row1 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col4" class="data row1 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col5" class="data row1 col5">29</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col6" class="data row1 col6">150</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col7" class="data row1 col7">195</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col8" class="data row1 col8">254</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col9" class="data row1 col9">255</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col10" class="data row1 col10">254</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col11" class="data row1 col11">176</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col12" class="data row1 col12">193</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col13" class="data row1 col13">150</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col14" class="data row1 col14">96</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col15" class="data row1 col15">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col16" class="data row1 col16">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row1_col17" class="data row1 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row2" class="row_heading level0 row2">2</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col0" class="data row2 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col1" class="data row2 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col2" class="data row2 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col3" class="data row2 col3">48</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col4" class="data row2 col4">166</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col5" class="data row2 col5">224</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col6" class="data row2 col6">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col7" class="data row2 col7">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col8" class="data row2 col8">234</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col9" class="data row2 col9">196</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col10" class="data row2 col10">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col11" class="data row2 col11">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col12" class="data row2 col12">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col13" class="data row2 col13">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col14" class="data row2 col14">233</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col15" class="data row2 col15">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col16" class="data row2 col16">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row2_col17" class="data row2 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row3" class="row_heading level0 row3">3</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col0" class="data row3 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col1" class="data row3 col1">93</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col2" class="data row3 col2">244</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col3" class="data row3 col3">249</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col4" class="data row3 col4">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col5" class="data row3 col5">187</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col6" class="data row3 col6">46</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col7" class="data row3 col7">10</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col8" class="data row3 col8">8</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col9" class="data row3 col9">4</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col10" class="data row3 col10">10</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col11" class="data row3 col11">194</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col12" class="data row3 col12">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col13" class="data row3 col13">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col14" class="data row3 col14">233</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col15" class="data row3 col15">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col16" class="data row3 col16">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row3_col17" class="data row3 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row4" class="row_heading level0 row4">4</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col0" class="data row4 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col1" class="data row4 col1">107</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col2" class="data row4 col2">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col3" class="data row4 col3">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col4" class="data row4 col4">230</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col5" class="data row4 col5">48</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col6" class="data row4 col6">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col7" class="data row4 col7">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col8" class="data row4 col8">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col9" class="data row4 col9">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col10" class="data row4 col10">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col11" class="data row4 col11">192</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col12" class="data row4 col12">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col13" class="data row4 col13">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col14" class="data row4 col14">156</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col15" class="data row4 col15">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col16" class="data row4 col16">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row4_col17" class="data row4 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row5" class="row_heading level0 row5">5</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col0" class="data row5 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col1" class="data row5 col1">3</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col2" class="data row5 col2">20</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col3" class="data row5 col3">20</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col4" class="data row5 col4">15</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col5" class="data row5 col5">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col6" class="data row5 col6">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col7" class="data row5 col7">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col8" class="data row5 col8">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col9" class="data row5 col9">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col10" class="data row5 col10">43</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col11" class="data row5 col11">224</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col12" class="data row5 col12">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col13" class="data row5 col13">245</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col14" class="data row5 col14">74</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col15" class="data row5 col15">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col16" class="data row5 col16">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row5_col17" class="data row5 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row6" class="row_heading level0 row6">6</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col0" class="data row6 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col1" class="data row6 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col2" class="data row6 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col3" class="data row6 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col4" class="data row6 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col5" class="data row6 col5">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col6" class="data row6 col6">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col7" class="data row6 col7">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col8" class="data row6 col8">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col9" class="data row6 col9">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col10" class="data row6 col10">249</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col11" class="data row6 col11">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col12" class="data row6 col12">245</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col13" class="data row6 col13">126</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col14" class="data row6 col14">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col15" class="data row6 col15">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col16" class="data row6 col16">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row6_col17" class="data row6 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row7" class="row_heading level0 row7">7</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col0" class="data row7 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col1" class="data row7 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col2" class="data row7 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col3" class="data row7 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col4" class="data row7 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col5" class="data row7 col5">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col6" class="data row7 col6">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col7" class="data row7 col7">14</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col8" class="data row7 col8">101</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col9" class="data row7 col9">223</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col10" class="data row7 col10">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col11" class="data row7 col11">248</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col12" class="data row7 col12">124</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col13" class="data row7 col13">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col14" class="data row7 col14">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col15" class="data row7 col15">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col16" class="data row7 col16">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row7_col17" class="data row7 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row8" class="row_heading level0 row8">8</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col0" class="data row8 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col1" class="data row8 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col2" class="data row8 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col3" class="data row8 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col4" class="data row8 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col5" class="data row8 col5">11</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col6" class="data row8 col6">166</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col7" class="data row8 col7">239</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col8" class="data row8 col8">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col9" class="data row8 col9">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col10" class="data row8 col10">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col11" class="data row8 col11">187</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col12" class="data row8 col12">30</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col13" class="data row8 col13">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col14" class="data row8 col14">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col15" class="data row8 col15">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col16" class="data row8 col16">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row8_col17" class="data row8 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row9" class="row_heading level0 row9">9</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col0" class="data row9 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col1" class="data row9 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col2" class="data row9 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col3" class="data row9 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col4" class="data row9 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col5" class="data row9 col5">16</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col6" class="data row9 col6">248</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col7" class="data row9 col7">250</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col8" class="data row9 col8">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col9" class="data row9 col9">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col10" class="data row9 col10">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col11" class="data row9 col11">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col12" class="data row9 col12">232</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col13" class="data row9 col13">213</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col14" class="data row9 col14">111</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col15" class="data row9 col15">2</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col16" class="data row9 col16">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row9_col17" class="data row9 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row10" class="row_heading level0 row10">10</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col0" class="data row10 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col1" class="data row10 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col2" class="data row10 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col3" class="data row10 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col4" class="data row10 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col5" class="data row10 col5">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col6" class="data row10 col6">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col7" class="data row10 col7">43</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col8" class="data row10 col8">98</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col9" class="data row10 col9">98</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col10" class="data row10 col10">208</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col11" class="data row10 col11">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col12" class="data row10 col12">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col13" class="data row10 col13">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col14" class="data row10 col14">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col15" class="data row10 col15">187</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col16" class="data row10 col16">22</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row10_col17" class="data row10 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row11" class="row_heading level0 row11">11</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col0" class="data row11 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col1" class="data row11 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col2" class="data row11 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col3" class="data row11 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col4" class="data row11 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col5" class="data row11 col5">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col6" class="data row11 col6">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col7" class="data row11 col7">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col8" class="data row11 col8">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col9" class="data row11 col9">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col10" class="data row11 col10">9</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col11" class="data row11 col11">51</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col12" class="data row11 col12">119</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col13" class="data row11 col13">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col14" class="data row11 col14">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col15" class="data row11 col15">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col16" class="data row11 col16">76</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row11_col17" class="data row11 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row12" class="row_heading level0 row12">12</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col0" class="data row12 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col1" class="data row12 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col2" class="data row12 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col3" class="data row12 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col4" class="data row12 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col5" class="data row12 col5">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col6" class="data row12 col6">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col7" class="data row12 col7">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col8" class="data row12 col8">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col9" class="data row12 col9">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col10" class="data row12 col10">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col11" class="data row12 col11">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col12" class="data row12 col12">1</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col13" class="data row12 col13">183</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col14" class="data row12 col14">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col15" class="data row12 col15">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col16" class="data row12 col16">139</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row12_col17" class="data row12 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row13" class="row_heading level0 row13">13</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col0" class="data row13 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col1" class="data row13 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col2" class="data row13 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col3" class="data row13 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col4" class="data row13 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col5" class="data row13 col5">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col6" class="data row13 col6">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col7" class="data row13 col7">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col8" class="data row13 col8">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col9" class="data row13 col9">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col10" class="data row13 col10">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col11" class="data row13 col11">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col12" class="data row13 col12">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col13" class="data row13 col13">182</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col14" class="data row13 col14">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col15" class="data row13 col15">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col16" class="data row13 col16">104</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row13_col17" class="data row13 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row14" class="row_heading level0 row14">14</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col0" class="data row14 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col1" class="data row14 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col2" class="data row14 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col3" class="data row14 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col4" class="data row14 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col5" class="data row14 col5">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col6" class="data row14 col6">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col7" class="data row14 col7">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col8" class="data row14 col8">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col9" class="data row14 col9">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col10" class="data row14 col10">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col11" class="data row14 col11">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col12" class="data row14 col12">85</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col13" class="data row14 col13">249</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col14" class="data row14 col14">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col15" class="data row14 col15">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col16" class="data row14 col16">36</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row14_col17" class="data row14 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row15" class="row_heading level0 row15">15</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col0" class="data row15 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col1" class="data row15 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col2" class="data row15 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col3" class="data row15 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col4" class="data row15 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col5" class="data row15 col5">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col6" class="data row15 col6">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col7" class="data row15 col7">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col8" class="data row15 col8">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col9" class="data row15 col9">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col10" class="data row15 col10">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col11" class="data row15 col11">60</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col12" class="data row15 col12">214</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col13" class="data row15 col13">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col14" class="data row15 col14">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col15" class="data row15 col15">173</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col16" class="data row15 col16">11</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row15_col17" class="data row15 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row16" class="row_heading level0 row16">16</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col0" class="data row16 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col1" class="data row16 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col2" class="data row16 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col3" class="data row16 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col4" class="data row16 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col5" class="data row16 col5">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col6" class="data row16 col6">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col7" class="data row16 col7">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col8" class="data row16 col8">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col9" class="data row16 col9">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col10" class="data row16 col10">98</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col11" class="data row16 col11">247</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col12" class="data row16 col12">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col13" class="data row16 col13">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col14" class="data row16 col14">226</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col15" class="data row16 col15">9</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col16" class="data row16 col16">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row16_col17" class="data row16 col17">0</td>
+            </tr>
+            <tr>
+                        <th id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974level0_row17" class="row_heading level0 row17">17</th>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col0" class="data row17 col0">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col1" class="data row17 col1">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col2" class="data row17 col2">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col3" class="data row17 col3">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col4" class="data row17 col4">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col5" class="data row17 col5">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col6" class="data row17 col6">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col7" class="data row17 col7">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col8" class="data row17 col8">42</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col9" class="data row17 col9">150</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col10" class="data row17 col10">252</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col11" class="data row17 col11">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col12" class="data row17 col12">253</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col13" class="data row17 col13">233</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col14" class="data row17 col14">53</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col15" class="data row17 col15">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col16" class="data row17 col16">0</td>
+                        <td id="T_2fbe7c5c_0196_11eb_a865_bd7b91d68974row17_col17" class="data row17 col17">0</td>
+            </tr>
+    </tbody>
+</table>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Creating-a-SIMPLE-Model">
+<a class="anchor" href="#Creating-a-SIMPLE-Model" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating a SIMPLE Model<a class="anchor-link" href="#Creating-a-SIMPLE-Model"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We are going to create a simple model that takes the AVG (averages) of each class to predict and use that to check if a new image pixels are near the average of the 3 or the 7.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">seven_tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">tensor</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">))</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">sevens</span><span class="p">]</span>
+<span class="n">three_tensors</span> <span class="o">=</span> <span class="p">[</span><span class="n">tensor</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">))</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">threes</span><span class="p">]</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">three_tensors</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">seven_tensors</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(6131, 6265)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>This is getting each path for the corresponding images and transforming them into a tensor, however all those tensors are inside a list</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">seven_tensors</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>list</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">seven_tensors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Tensor</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">show_image</span><span class="p">(</span><span class="n">seven_tensors</span><span class="p">[</span><span class="mi">5</span><span class="p">]);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>show_image() is going to transform those tensors into a image because each value inside the tensor represent a pixel</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We would like to compute the avg of the density of each pixel. We will neet to stack each image and create a 3 dimencional tensor, which the hight is going to be the amount of images, and the other 2 dimensions are going to be 28x28 pixels size. We can use the stack method given us by pytorch.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">stacked_sevens</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">seven_tensors</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">/</span> <span class="mi">255</span>
+<span class="n">stacked_threes</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">three_tensors</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span> <span class="o">/</span> <span class="mi">255</span>
+<span class="n">stacked_threes</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>torch.Size([6131, 28, 28])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>we can also check the dimensions by calling ndim</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">stacked_threes</span><span class="o">.</span><span class="n">ndim</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>3</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mean3</span> <span class="o">=</span> <span class="n">stacked_threes</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">mean3</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;AxesSubplot:&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAABECAYAAAA4E5OyAAAAOXRFWHRTb2Z0d2FyZQBNYXRwbG90bGliIHZlcnNpb24zLjMuMiwgaHR0cHM6Ly9tYXRwbG90bGliLm9yZy8vihELAAAACXBIWXMAAAsTAAALEwEAmpwYAAAJuElEQVR4nO1b2XLiWhJM7QsChDG22x3h//+qfnKzGSy079I8dFTN4VzZngZsz0xQEYQwoOWkasnKkpW+73G1f5v63Rfw32ZXQCS7AiLZFRDJroBIpn/w/f9zCVKGPrx6iGRXQCS7AiLZFRDJPkqqn2KntguKMpgHL2qfDoi8ePpb/HwIIHnxiqKg7/vBzy9pFwVkaJF93x+9uq7jz8X3simKAkVRoKp/olpVVf6MXvLvL2EXAURefNd1vO26Dm3bom1blGWJpmlQVRWapkFd12jbFk3T8P6qqkJVVZimCU3TYFkWdF2HZVnQNA26rkPTNP4dAUV2LjBnATLkBQRC13VomgZN06AsS1RVhTzPURQF8jxHVVXIsgxVVaEoCj6OrutQVRWj0QiWZR1tTdOEbdswDAOGYUDTNAZBBuZUOxkQEQzZE+q6RlmWyLIMeZ4jCALEcYzNZoMgCLDf75EkCcIwRFEUyLIMbdui6zqYpgnDMOB5HkajERaLBWazGR4fHzGbzTCfz+G6LsbjMSzLOvIcMcROBedsDxkCpCgKlGWJOI6RZRn2+z2CIMBms0EURdjtdkjTFGEYIk1TpGnKoUN3fjabwfM8dF2HPM+hKArKsoSu62jbFrquo+979hIKn6HE++mAyLlCzBFlWSKKIiRJgu12iyAI8Pz8jMPhgM1mgyRJsNvtEMcxwjBEWZYoigJN06BtWz6H4ziwLAsPDw+4vb1FEAS4ublBmqa4vb1F27YYj8dQFAWO4xwl33Ps7KQq5g9alLhtmobDS9M0mKaJ0WgERVGgaRoDUtc1mqZhTyNP6fseVVWhqioOwzRNUZYlTNPkc5imydfx5R5CQAzlDrrwqqq4iqiqCsuyOO5t2+Z9aH+qPpR36rpGXdfQdZ0TM+UdVVUxn8+haRrG4zF0XUfXdRwydANOAebkkBGNTkxxrOs6ewJ5jm3bsG2bF0qAEigEJgGS5zmyLIOmaUfJUt5P9NBL2MWIGV20rutwHIeTned58H2fPUDehxZIABwOB0RRxJWJOIuu/7lU0TPfA+JbqgydWAQDALquY/JU1zWHCDFT0ejzNE2h6zrKskSe58xHaGGUc+g8hmEckTTxd+fYSYDIJye3Nk2TL7LrOjiOc1SN5LtJ5K2ua1iWBdM0/xEqAI5ygmmaTNCIswyBd6qd5SHiBaiqyosQQ0F2b7FU05a8IggCHA4HHA4HJEmCLMu4YqmqCsMwjtgr0XoiZUM9zpcDIt5FAkJOdDIQVIr7vufq8fLygvV6jdVqhZeXF4RhiMPhwAvWNA22bWMymcD3fYxGI7iuy6BQQj/XTgZEBkJRFHRdNwiKyFNEPhHHMTPY9XqN7XaL3W6H/X6PNE2RZRkmkwmXatd14XkexuMxHMc5ClGxG/4WQERQCAQiUm+1+9Tg0d1fLpdYrVbsFQRIEAQchq7rQtM0OI6DyWTClN5xHDiOc+Qd35ZDCADxvbwlENq25Y42iiKEYcihsVwuOVS22y02mw3yPGcWapomVyziNkPV5VIV5mRA/hNQRBab5zniOMZ2u8VqtcKvX7+wXq/x/PyM379/Y7lcIooixHHMx/Q8D57nAfhTxSihiq2/LBrRtZxjFxOZxQuhcCHvyPOcm7rNZoPNZoPdboflcondbockSVBVFQtEIs8AcFSJqIGktkBmq+cy1rNzyJBmKtLrqqqQpimiKMJ6vWZAlssllssl4jhGHMdchhVFOfICOlZZliwVuK571AxSH/OtIfOeEUgiD6HkSnKg7/tYLBYYjUaYTCYMpKZpnEQpTCjswjDEbrfjpo66Z1l7Bb6Ruosmi8wyMSP6bVkWPM/D3d0dq2tkol4KAIZhoOs6ZFkGVVXx+voKTdNwc3MDXddh2zYf99s95L1RgqIonAtc10XTNPjx4wczzDzPkaYphxYZgScL0n3fc6VSVRVhGELTNLiuy3lH9BS6hr+1szVV+b14MTLdns/ncBwHruuy6CNTeuptiLpHUcTAEatVVRWHwwGWZaEsS/Yi0RNPtbP0kKGtWIppnOC6LgzDgGmaqKoK8/mcPUMGhBS019dXRFHExCtNUxadqGqNRiMURQHTNLnfIbb8ZTnkraoifkfVh9xX7Eypwx2a5XRdxwK1bdscWgQSAFRVBU3TWK0XlTmRKdOx/xaYszxEbuuHgKH4ppnLW80fcQoqudTzEDCGYXDyFWUDkiKHOMmX55ChhYlbAoXUs6FcI3sImW3bXHpFVir/XgbjXPsrQGTPoOrwnrb5HrUWF0jHp8VSriDBmsJsaL57CYZKdnIOEQGg5ChLhPLA+i1Q5OOLLJcEIjlhD+0r25eq7mLci0NrWpCstYqKmggQ/Z6SYxRFTPNXqxX2+z2PPClxEtulgTh1v+89HfBpgMhahwhIXddHuYAYZ9M0fOGiGK0oCoMqCkdJkrD6nqYp8jw/Chmi97Ke+m1MVQSEhkhN0/CFl2XJ38uzGgKGjKoFNW6bzYY1ktfXV8RxjDzPWR0jocj3fUynUx550rHPbfJOSqoyKOQdNKPN85xzAFF4eXRARgMqUtG22y32+z12ux2HCrFRInpUgYjb0HeX8JS/AkQWhcSTE6kqigK73Y5pN3mR+AwHjR6JjhdFgSRJkCQJywFZlqEoCuYhnudhOp3i/v4ed3d3uLu7w2Qyged5sG17MI98OiAiMPJJxeRIAnEYhuw5BJooSIvyIg2x4zjmxyP6vmdS5jgOPM/DZDLBZDKB4zjMgId01VPtrwERwaDERton6aAAjvJCEASoqgpRFB3lHBJ5RMZJCdP3fYzHYzw+PsL3fTw9PeH+/h5PT0+YTqeYzWYMCu3z5SEzBAolTPlFXiA2Y/v9nisJ5R0q3+TuxE5d14Xv+/B9H/P5HIvFAre3t0dhcqlEejIgdFLiEeIiaHxp2zYAYDqdQtd1HA4HGIaBOI5hGAbLiaR10N2lect8Psd4PMb9/T1msxl+/vyJxWKBm5sbFp5FMIa4zZcBIoMjAkO6BwBWy9M0haIcPwpF4BGRI4+azWYYjUaYzWbwfZ+fHHp4eMB4POa8QbMYUVm75BhC+aAHGPxyqKchcYf0z7quuVIkScKPWpF6TlWGFkejSXFLz5TIQ+2hEnsCGIM7nAXIEGulMkujA5Gf0JZyB2kmJBabpskki15itzv0bOoZXnE5QPjLAaIG/LP7/Wh2IidpuSd5q0c5M0QGd77IbFf+W2zLh7YfHe+t7VvnvaSd5SEf2SU0ik9c/OU95MMzfuKd/Cy7/gORZFdAJPsoZP73fP5Mu3qIZFdAJLsCItkVEMmugEh2BUSyfwEZ2JfU/pD8AwAAAABJRU5ErkJggg==%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">mean7</span> <span class="o">=</span> <span class="n">stacked_sevens</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">mean7</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;AxesSubplot:&gt;</pre>
+</div>
+
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we have the ideal digits for 3 and 7.
+Let us pick an arbitrary 3 and measure its distance to the ideal one.
+We are going to explain two different ways</p>
+<ul>
+<li>Take the mean of the <em>absolute value</em> of differences (absolute value is the function that replaces negative values with positive values). This is called the <em>mean absolute difference</em> or <em>L1 norm</em>
+</li>
+<li>Take the mean of the <em>square</em> of differences (which makes everything positive) and then take the <em>square root</em> (which undoes the squaring). This is called the <em>root mean squared error</em> (RMSE) or <em>L2 norm</em>.</li>
+</ul>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">a_3</span> <span class="o">=</span> <span class="n">stacked_threes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="n">show_image</span><span class="p">(</span><span class="n">a_3</span><span class="p">);</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dist_3_abs</span> <span class="o">=</span> <span class="p">(</span><span class="n">a_3</span> <span class="o">-</span> <span class="n">mean3</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">dist_3_sqr</span> <span class="o">=</span> <span class="p">((</span><span class="n">a_3</span> <span class="o">-</span> <span class="n">mean3</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">sqrt</span><span class="p">()</span>
+<span class="n">dist_3_abs</span><span class="p">,</span> <span class="n">dist_3_sqr</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(tensor(0.1154), tensor(0.2064))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">dist_7_abs</span> <span class="o">=</span> <span class="p">(</span><span class="n">a_3</span> <span class="o">-</span> <span class="n">mean7</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">dist_7_sqr</span> <span class="o">=</span> <span class="p">((</span><span class="n">a_3</span> <span class="o">-</span> <span class="n">mean7</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">sqrt</span><span class="p">()</span>
+<span class="n">dist_7_abs</span><span class="p">,</span> <span class="n">dist_7_sqr</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(tensor(0.1669), tensor(0.3170))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can see that the distance betweem the 3 and the "ideal" 3 is shorter than the "ideal" 7
+ pytorch already provides both of these as loss functions</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">F</span><span class="o">.</span><span class="n">l1_loss</span><span class="p">(</span><span class="n">a_3</span><span class="o">.</span><span class="n">float</span><span class="p">(),</span> <span class="n">mean7</span><span class="p">),</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">a_3</span><span class="p">,</span> <span class="n">mean7</span><span class="p">)</span><span class="o">.</span><span class="n">sqrt</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(tensor(0.1669), tensor(0.3170))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>The mean_square_error will penalize bigger mistakes more heavily and be more lenient with small mistakes</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Metric">
+<a class="anchor" href="#Metric" aria-hidden="true"><span class="octicon octicon-link"></span></a>Metric<a class="anchor-link" href="#Metric"> </a>
+</h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>A metric is a number that is calculated based on the predictions of our model, and the correct labels in our dataset, in order to tell us how good our model is.
+Remeber that the Mnist dataset already has a directory called "Valid". This directory contains the data where we are going to calculate how well our model operates.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We are going to use the 'stack' pytorch operation to stack all the images contain in de valid directory</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">valid_3_tens</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">tensor</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">))</span> 
+                            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="p">(</span><span class="n">path</span><span class="o">/</span><span class="s1">'valid'</span><span class="o">/</span><span class="s1">'3'</span><span class="p">)</span><span class="o">.</span><span class="n">ls</span><span class="p">()])</span>
+<span class="n">valid_3_tens</span> <span class="o">=</span> <span class="n">valid_3_tens</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">/</span><span class="mi">255</span>
+<span class="n">valid_7_tens</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">([</span><span class="n">tensor</span><span class="p">(</span><span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">))</span> 
+                            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="p">(</span><span class="n">path</span><span class="o">/</span><span class="s1">'valid'</span><span class="o">/</span><span class="s1">'7'</span><span class="p">)</span><span class="o">.</span><span class="n">ls</span><span class="p">()])</span>
+<span class="n">valid_7_tens</span> <span class="o">=</span> <span class="n">valid_7_tens</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">/</span><span class="mi">255</span>
+<span class="n">valid_3_tens</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">valid_7_tens</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(torch.Size([1010, 28, 28]), torch.Size([1028, 28, 28]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Here we see two tensors, one representing the 3s validation set of 1,010 images of size 28×28, and one representing the 7s validation set of 1,028 images of size 28×28.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can write a simple function that calculates the mean absolute error using an experssion very similar to the one we wrote in the last section:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">mnist_distance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">):</span> <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">-</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">valid_3_dist</span> <span class="o">=</span> <span class="n">mnist_distance</span><span class="p">(</span><span class="n">valid_3_tens</span><span class="p">,</span> <span class="n">mean3</span><span class="p">)</span>
+<span class="n">valid_3_dist</span><span class="p">,</span> <span class="n">valid_3_dist</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(tensor([0.1605, 0.1107, 0.1181,  ..., 0.1419, 0.1103, 0.1162]),
+ torch.Size([1010]))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We can use mnist_distance to figure out whether an image is a 3 or not by using the following logic: if the distance between the digit in question and the ideal 3 is less than the distance to the ideal 7, then it's a 3. This function will automatically do broadcasting and be applied elementwise, just like all PyTorch functions and operators:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">is_3</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">mnist_distance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mean3</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">mnist_distance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mean7</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Let's test it with one of our examples</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">is_3</span><span class="p">(</span><span class="n">a_3</span><span class="p">),</span> <span class="n">is_3</span><span class="p">(</span><span class="n">a_3</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(tensor(True), tensor(1.))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">is_3</span><span class="p">(</span><span class="n">valid_3_tens</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>tensor([False,  True,  True,  ...,  True,  True,  True])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now we can calculate the accuracy for each of the 3s and 7s by taking the average of that function for all 3s and its inverse for all 7s:</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">accuracy_3s</span> <span class="o">=</span> <span class="n">is_3</span><span class="p">(</span><span class="n">valid_3_tens</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">accuracy_7s</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span> <span class="n">is_3</span><span class="p">(</span><span class="n">valid_7_tens</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">())</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">accuracy_3s</span><span class="p">,</span> <span class="n">accuracy_7s</span><span class="p">,</span> <span class="p">(</span><span class="n">accuracy_3s</span><span class="o">+</span><span class="n">accuracy_7s</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>(tensor(0.9168), tensor(0.9854), tensor(0.9511))</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We're getting over 90% accuracy on both 3s and 7s, and we've seen how to define a metric conveniently using broadcasting.</p>
+<p>However: 3s and 7s are very different-looking digits. And we're only classifying 2 out of the 10 possible digits so far. So we're going to need to do better!</p>
+<p>But now we know a simpler model that can predict with a 95% accuracy and if we create a deep learning model that predict with 94% accuracy we can clearly see that is not a good model and we will need to try other things.</p>
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="Juanchoalric/ai_journey"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/ai_journey/deep-learning/jupyter/fastai/2020/09/28/creating-simple-model.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/ai_journey/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/ai_journey/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/ai_journey/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Hello World! My name is Juan currently studying Computer Science at university and living in Buenos Aires, Argentina. I started  Data Science 1 year ago and decided its time to get more serious. That&#39;s why I decided to create this blog and start documenting my findings to share with the world.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/juanchoalric" title="juanchoalric"><svg class="svg-icon grey"><use xlink:href="/ai_journey/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/juancruzalric" title="juancruzalric"><svg class="svg-icon grey"><use xlink:href="/ai_journey/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
