@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" /><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Building your first model in keras and get it ready for mobile use | My Data Science Journey</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Building your first model in keras and get it ready for mobile use" />
+<meta name="author" content="Juan Cruz Alric" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Learning how to build your first tensorflow model using keras and how to get a file that you can use in your mobile device" />
+<meta property="og:description" content="Learning how to build your first tensorflow model using keras and how to get a file that you can use in your mobile device" />
+<link rel="canonical" href="https://juanchoalric.github.io/ai_journey/deep-learning/jupyter/tensorflow/keras/machine_learning/2020/10/13/keras-model-how-to-save-it.html" />
+<meta property="og:url" content="https://juanchoalric.github.io/ai_journey/deep-learning/jupyter/tensorflow/keras/machine_learning/2020/10/13/keras-model-how-to-save-it.html" />
+<meta property="og:site_name" content="My Data Science Journey" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-10-13T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Learning how to build your first tensorflow model using keras and how to get a file that you can use in your mobile device","url":"https://juanchoalric.github.io/ai_journey/deep-learning/jupyter/tensorflow/keras/machine_learning/2020/10/13/keras-model-how-to-save-it.html","@type":"BlogPosting","headline":"Building your first model in keras and get it ready for mobile use","dateModified":"2020-10-13T00:00:00-05:00","datePublished":"2020-10-13T00:00:00-05:00","author":{"@type":"Person","name":"Juan Cruz Alric"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://juanchoalric.github.io/ai_journey/deep-learning/jupyter/tensorflow/keras/machine_learning/2020/10/13/keras-model-how-to-save-it.html"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/ai_journey/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://juanchoalric.github.io/ai_journey/feed.xml" title="My Data Science Journey" /><link rel="shortcut icon" type="image/x-icon" href="/ai_journey/images/favicon.ico"><link href="https://cdn.jsdelivr.net/npm/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.css">
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/ai_journey/">My Data Science Journey</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/ai_journey/about/">About Me</a><a class="page-link" href="/ai_journey/search/">Search</a><a class="page-link" href="/ai_journey/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Building your first model in keras and get it ready for mobile use</h1><p class="page-description">Learning how to build your first tensorflow model using keras and how to get a file that you can use in your mobile device</p><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-10-13T00:00:00-05:00" itemprop="datePublished">
+        Oct 13, 2020
+      </time>• 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Juan Cruz Alric</span></span>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      15 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/ai_journey/categories/#deep-learning">deep-learning</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/ai_journey/categories/#jupyter">jupyter</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/ai_journey/categories/#tensorflow">tensorflow</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/ai_journey/categories/#keras">keras</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/ai_journey/categories/#machine_learning">machine_learning</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/Juanchoalric/ai_journey/tree/master/_notebooks/2020-10-13-keras-model-how-to-save-it.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/ai_journey/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/Juanchoalric/ai_journey/master?filepath=_notebooks%2F2020-10-13-keras-model-how-to-save-it.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/ai_journey/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/Juanchoalric/ai_journey/blob/master/_notebooks/2020-10-13-keras-model-how-to-save-it.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/ai_journey/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+</ul><!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2020-10-13-keras-model-how-to-save-it.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Input</span>
+
+<span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>We are going to create a basic model of the form y=mx+b</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">y</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[-11, -9, -7, -5, -3, -1, 1, 3, 5, 7, 9, 11, 13, 15, 17]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">Sequential</span><span class="p">([</span>
+    <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">input_shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">optimizer</span><span class="o">=</span><span class="s1">'sgd'</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="s1">'mean_squared_error'</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">'mse'</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+    <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
+    <span class="n">epochs</span><span class="o">=</span><span class="mi">200</span>
+<span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Epoch 1/200
+1/1 [==============================] - 0s 1ms/step - loss: 231.3291 - mse: 231.3291
+Epoch 2/200
+1/1 [==============================] - 0s 2ms/step - loss: 69.1295 - mse: 69.1295
+Epoch 3/200
+1/1 [==============================] - 0s 1ms/step - loss: 21.2743 - mse: 21.2743
+Epoch 4/200
+1/1 [==============================] - 0s 3ms/step - loss: 7.1351 - mse: 7.1351
+Epoch 5/200
+1/1 [==============================] - 0s 1ms/step - loss: 2.9382 - mse: 2.9382
+Epoch 6/200
+1/1 [==============================] - 0s 2ms/step - loss: 1.6736 - mse: 1.6736
+Epoch 7/200
+1/1 [==============================] - 0s 3ms/step - loss: 1.2746 - mse: 1.2746
+Epoch 8/200
+1/1 [==============================] - 0s 3ms/step - loss: 1.1317 - mse: 1.1317
+Epoch 9/200
+1/1 [==============================] - 0s 4ms/step - loss: 1.0650 - mse: 1.0650
+Epoch 10/200
+1/1 [==============================] - 0s 2ms/step - loss: 1.0217 - mse: 1.0217
+Epoch 11/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.9859 - mse: 0.9859
+Epoch 12/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.9532 - mse: 0.9532
+Epoch 13/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.9221 - mse: 0.9221
+Epoch 14/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.8921 - mse: 0.8921
+Epoch 15/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.8632 - mse: 0.8632
+Epoch 16/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.8352 - mse: 0.8352
+Epoch 17/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.8081 - mse: 0.8081
+Epoch 18/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.7820 - mse: 0.7820
+Epoch 19/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.7566 - mse: 0.7566
+Epoch 20/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.7321 - mse: 0.7321
+Epoch 21/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.7084 - mse: 0.7084
+Epoch 22/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.6854 - mse: 0.6854
+Epoch 23/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.6632 - mse: 0.6632
+Epoch 24/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.6417 - mse: 0.6417
+Epoch 25/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.6209 - mse: 0.6209
+Epoch 26/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.6008 - mse: 0.6008
+Epoch 27/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.5813 - mse: 0.5813
+Epoch 28/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.5625 - mse: 0.5625
+Epoch 29/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.5442 - mse: 0.5442
+Epoch 30/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.5266 - mse: 0.5266
+Epoch 31/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.5095 - mse: 0.5095
+Epoch 32/200
+1/1 [==============================] - 0s 8ms/step - loss: 0.4930 - mse: 0.4930
+Epoch 33/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.4770 - mse: 0.4770
+Epoch 34/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.4616 - mse: 0.4616
+Epoch 35/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.4466 - mse: 0.4466
+Epoch 36/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.4321 - mse: 0.4321
+Epoch 37/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.4181 - mse: 0.4181
+Epoch 38/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.4046 - mse: 0.4046
+Epoch 39/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.3915 - mse: 0.3915
+Epoch 40/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.3788 - mse: 0.3788
+Epoch 41/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.3665 - mse: 0.3665
+Epoch 42/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.3546 - mse: 0.3546
+Epoch 43/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.3431 - mse: 0.3431
+Epoch 44/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.3320 - mse: 0.3320
+Epoch 45/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.3213 - mse: 0.3213
+Epoch 46/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.3108 - mse: 0.3108
+Epoch 47/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.3008 - mse: 0.3008
+Epoch 48/200
+1/1 [==============================] - ETA: 0s - loss: 0.2910 - mse: 0.291 - 0s 5ms/step - loss: 0.2910 - mse: 0.2910
+Epoch 49/200
+1/1 [==============================] - 0s 10ms/step - loss: 0.2816 - mse: 0.2816
+Epoch 50/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.2725 - mse: 0.2725
+Epoch 51/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.2636 - mse: 0.2636
+Epoch 52/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.2551 - mse: 0.2551
+Epoch 53/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.2468 - mse: 0.2468
+Epoch 54/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.2388 - mse: 0.2388
+Epoch 55/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.2311 - mse: 0.2311
+Epoch 56/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.2236 - mse: 0.2236
+Epoch 57/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.2163 - mse: 0.2163
+Epoch 58/200
+1/1 [==============================] - 0s 7ms/step - loss: 0.2093 - mse: 0.2093
+Epoch 59/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.2025 - mse: 0.2025
+Epoch 60/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.1960 - mse: 0.1960
+Epoch 61/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.1896 - mse: 0.1896
+Epoch 62/200
+1/1 [==============================] - 0s 8ms/step - loss: 0.1835 - mse: 0.1835
+Epoch 63/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.1775 - mse: 0.1775
+Epoch 64/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.1718 - mse: 0.1718
+Epoch 65/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.1662 - mse: 0.1662
+Epoch 66/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.1608 - mse: 0.1608
+Epoch 67/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.1556 - mse: 0.1556
+Epoch 68/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.1506 - mse: 0.1506
+Epoch 69/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.1457 - mse: 0.1457
+Epoch 70/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.1410 - mse: 0.1410
+Epoch 71/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.1364 - mse: 0.1364
+Epoch 72/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.1320 - mse: 0.1320
+Epoch 73/200
+1/1 [==============================] - 0s 7ms/step - loss: 0.1277 - mse: 0.1277
+Epoch 74/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.1236 - mse: 0.1236
+Epoch 75/200
+1/1 [==============================] - 0s 9ms/step - loss: 0.1196 - mse: 0.1196
+Epoch 76/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.1157 - mse: 0.1157
+Epoch 77/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.1119 - mse: 0.1119
+Epoch 78/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.1083 - mse: 0.1083
+Epoch 79/200
+1/1 [==============================] - 0s 7ms/step - loss: 0.1048 - mse: 0.1048
+Epoch 80/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.1014 - mse: 0.1014
+Epoch 81/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.0981 - mse: 0.0981
+Epoch 82/200
+1/1 [==============================] - 0s 6ms/step - loss: 0.0949 - mse: 0.0949
+Epoch 83/200
+1/1 [==============================] - 0s 9ms/step - loss: 0.0919 - mse: 0.0919
+Epoch 84/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0889 - mse: 0.0889
+Epoch 85/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0860 - mse: 0.0860
+Epoch 86/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0832 - mse: 0.0832
+Epoch 87/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0805 - mse: 0.0805
+Epoch 88/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0779 - mse: 0.0779
+Epoch 89/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0754 - mse: 0.0754
+Epoch 90/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0729 - mse: 0.0729
+Epoch 91/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0706 - mse: 0.0706
+Epoch 92/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0683 - mse: 0.0683
+Epoch 93/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0661 - mse: 0.0661
+Epoch 94/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0639 - mse: 0.0639
+Epoch 95/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.0619 - mse: 0.0619
+Epoch 96/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0599 - mse: 0.0599
+Epoch 97/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0579 - mse: 0.0579
+Epoch 98/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0560 - mse: 0.0560
+Epoch 99/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0542 - mse: 0.0542
+Epoch 100/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0525 - mse: 0.0525
+Epoch 101/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0508 - mse: 0.0508
+Epoch 102/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.0491 - mse: 0.0491
+Epoch 103/200
+1/1 [==============================] - 0s 6ms/step - loss: 0.0475 - mse: 0.0475
+Epoch 104/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.0460 - mse: 0.0460
+Epoch 105/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0445 - mse: 0.0445
+Epoch 106/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0431 - mse: 0.0431
+Epoch 107/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.0417 - mse: 0.0417
+Epoch 108/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0403 - mse: 0.0403
+Epoch 109/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0390 - mse: 0.0390
+Epoch 110/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0377 - mse: 0.0377
+Epoch 111/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0365 - mse: 0.0365
+Epoch 112/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0353 - mse: 0.0353
+Epoch 113/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0342 - mse: 0.0342
+Epoch 114/200
+1/1 [==============================] - 0s 6ms/step - loss: 0.0331 - mse: 0.0331
+Epoch 115/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.0320 - mse: 0.0320
+Epoch 116/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0310 - mse: 0.0310
+Epoch 117/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0300 - mse: 0.0300
+Epoch 118/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0290 - mse: 0.0290
+Epoch 119/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.0281 - mse: 0.0281
+Epoch 120/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.0271 - mse: 0.0271
+Epoch 121/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0263 - mse: 0.0263
+Epoch 122/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0254 - mse: 0.0254
+Epoch 123/200
+1/1 [==============================] - 0s 6ms/step - loss: 0.0246 - mse: 0.0246
+Epoch 124/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0238 - mse: 0.0238
+Epoch 125/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.0230 - mse: 0.0230
+Epoch 126/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0223 - mse: 0.0223
+Epoch 127/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0216 - mse: 0.0216
+Epoch 128/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0209 - mse: 0.0209
+Epoch 129/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0202 - mse: 0.0202
+Epoch 130/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0195 - mse: 0.0195
+Epoch 131/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0189 - mse: 0.0189
+Epoch 132/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0183 - mse: 0.0183
+Epoch 133/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0177 - mse: 0.0177
+Epoch 134/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0171 - mse: 0.0171
+Epoch 135/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0166 - mse: 0.0166
+Epoch 136/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0160 - mse: 0.0160
+Epoch 137/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0155 - mse: 0.0155
+Epoch 138/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.0150 - mse: 0.0150
+Epoch 139/200
+1/1 [==============================] - 0s 6ms/step - loss: 0.0145 - mse: 0.0145
+Epoch 140/200
+1/1 [==============================] - 0s 14ms/step - loss: 0.0140 - mse: 0.0140
+Epoch 141/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.0136 - mse: 0.0136
+Epoch 142/200
+1/1 [==============================] - 0s 8ms/step - loss: 0.0131 - mse: 0.0131
+Epoch 143/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0127 - mse: 0.0127
+Epoch 144/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0123 - mse: 0.0123
+Epoch 145/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0119 - mse: 0.0119
+Epoch 146/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0115 - mse: 0.0115
+Epoch 147/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.0112 - mse: 0.0112
+Epoch 148/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0108 - mse: 0.0108
+Epoch 149/200
+1/1 [==============================] - 0s 7ms/step - loss: 0.0104 - mse: 0.0104
+Epoch 150/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.0101 - mse: 0.0101
+Epoch 151/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0098 - mse: 0.0098
+Epoch 152/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0095 - mse: 0.0095
+Epoch 153/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0092 - mse: 0.0092
+Epoch 154/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0089 - mse: 0.0089
+Epoch 155/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0086 - mse: 0.0086
+Epoch 156/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0083 - mse: 0.0083
+Epoch 157/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.0080 - mse: 0.0080
+Epoch 158/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0078 - mse: 0.0078
+Epoch 159/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.0075 - mse: 0.0075
+Epoch 160/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.0073 - mse: 0.0073
+Epoch 161/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0070 - mse: 0.0070
+Epoch 162/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.0068 - mse: 0.0068
+Epoch 163/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0066 - mse: 0.0066
+Epoch 164/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0064 - mse: 0.0064
+Epoch 165/200
+1/1 [==============================] - 0s 7ms/step - loss: 0.0062 - mse: 0.0062
+Epoch 166/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0060 - mse: 0.0060
+Epoch 167/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0058 - mse: 0.0058
+Epoch 168/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0056 - mse: 0.0056
+Epoch 169/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0054 - mse: 0.0054
+Epoch 170/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0052 - mse: 0.0052
+Epoch 171/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0051 - mse: 0.0051
+Epoch 172/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0049 - mse: 0.0049
+Epoch 173/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.0047 - mse: 0.0047
+Epoch 174/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0046 - mse: 0.0046
+Epoch 175/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0044 - mse: 0.0044
+Epoch 176/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0043 - mse: 0.0043
+Epoch 177/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0042 - mse: 0.0042
+Epoch 178/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0040 - mse: 0.0040
+Epoch 179/200
+1/1 [==============================] - 0s 4ms/step - loss: 0.0039 - mse: 0.0039
+Epoch 180/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0038 - mse: 0.0038
+Epoch 181/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0036 - mse: 0.0036
+Epoch 182/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0035 - mse: 0.0035
+Epoch 183/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0034 - mse: 0.0034
+Epoch 184/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0033 - mse: 0.0033
+Epoch 185/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.0032 - mse: 0.0032
+Epoch 186/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0031 - mse: 0.0031
+Epoch 187/200
+1/1 [==============================] - 0s 5ms/step - loss: 0.0030 - mse: 0.0030
+Epoch 188/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0029 - mse: 0.0029
+Epoch 189/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.0028 - mse: 0.0028
+Epoch 190/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0027 - mse: 0.0027
+Epoch 191/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0026 - mse: 0.0026
+Epoch 192/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0025 - mse: 0.0025
+Epoch 193/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0024 - mse: 0.0024
+Epoch 194/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.0024 - mse: 0.0024
+Epoch 195/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.0023 - mse: 0.0023
+Epoch 196/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.0022 - mse: 0.0022
+Epoch 197/200
+1/1 [==============================] - 0s 2ms/step - loss: 0.0021 - mse: 0.0021
+Epoch 198/200
+1/1 [==============================] - 0s 8ms/step - loss: 0.0021 - mse: 0.0021
+Epoch 199/200
+1/1 [==============================] - 0s 3ms/step - loss: 0.0020 - mse: 0.0020
+Epoch 200/200
+1/1 [==============================] - 0s 1ms/step - loss: 0.0019 - mse: 0.0019
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;tensorflow.python.keras.callbacks.History at 0x7f406a593950&gt;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Now that we have the model we can generate a SavedModel</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">export_dir</span> <span class="o">=</span> <span class="s1">'saved_model/1'</span>
+<span class="n">tf</span><span class="o">.</span><span class="n">saved_model</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">export_dir</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>INFO:tensorflow:Assets written to: saved_model/1/assets
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>INFO:tensorflow:Assets written to: saved_model/1/assets
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Convert the SavedModel to TFLite</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">converter</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">lite</span><span class="o">.</span><span class="n">TFLiteConverter</span><span class="o">.</span><span class="n">from_saved_model</span><span class="p">(</span><span class="n">export_dir</span><span class="p">)</span>
+<span class="n">tflite_model</span> <span class="o">=</span> <span class="n">converter</span><span class="o">.</span><span class="n">convert</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">tflite_model_file</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s1">'model.tflite'</span><span class="p">)</span>
+<span class="n">tflite_model_file</span><span class="o">.</span><span class="n">write_bytes</span><span class="p">(</span><span class="n">tflite_model</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>776</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Load TFLite model and allocate tensors</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">interpreter</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">lite</span><span class="o">.</span><span class="n">Interpreter</span><span class="p">(</span><span class="n">model_content</span><span class="o">=</span><span class="n">tflite_model</span><span class="p">)</span>
+<span class="n">interpreter</span><span class="o">.</span><span class="n">allocate_tensors</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Get input and output tensors</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">input_details</span> <span class="o">=</span> <span class="n">interpreter</span><span class="o">.</span><span class="n">get_input_details</span><span class="p">()</span>
+<span class="n">output_details</span> <span class="o">=</span> <span class="n">interpreter</span><span class="o">.</span><span class="n">get_output_details</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Test the Tensorflow Lite model on random input data</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">input_shape</span> <span class="o">=</span> <span class="n">input_details</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'shape'</span><span class="p">]</span>
+<span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">input_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random_sample</span><span class="p">(</span><span class="n">input_shape</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">interpreter</span><span class="o">.</span><span class="n">set_tensor</span><span class="p">(</span><span class="n">input_details</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'index'</span><span class="p">],</span> <span class="n">input_data</span><span class="p">)</span>
+    <span class="n">interpreter</span><span class="o">.</span><span class="n">invoke</span><span class="p">()</span>
+    <span class="n">tflite_results</span> <span class="o">=</span> <span class="n">interpreter</span><span class="o">.</span><span class="n">get_tensor</span><span class="p">(</span><span class="n">output_details</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'index'</span><span class="p">])</span>
+    
+    <span class="c1"># Test the Tensorflow model on random input</span>
+    <span class="n">tf_results</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="n">input_data</span><span class="p">))</span>
+    <span class="n">output_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tf_results</span><span class="p">)</span>
+    
+    <span class="n">inputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">input_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output_data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered">
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Visualize the model</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+
+
+<div class="output_png output_subarea ">
+<img src="data:image/png;base64,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%0A">
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="Juanchoalric/ai_journey"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/ai_journey/deep-learning/jupyter/tensorflow/keras/machine_learning/2020/10/13/keras-model-how-to-save-it.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/ai_journey/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/ai_journey/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/ai_journey/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Hello World! My name is Juan currently studying Computer Science at university and living in Buenos Aires, Argentina. I started  Data Science 1 year ago and decided its time to get more serious. That&#39;s why I decided to create this blog and start documenting my findings to share with the world.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/juanchoalric" title="juanchoalric"><svg class="svg-icon grey"><use xlink:href="/ai_journey/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/juancruzalric" title="juancruzalric"><svg class="svg-icon grey"><use xlink:href="/ai_journey/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
